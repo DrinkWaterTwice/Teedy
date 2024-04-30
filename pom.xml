@@ -95,7 +95,7 @@
 <!-- printFailingErrors is pretty useful -->
 <printFailingErrors>true</printFailingErrors>
 <rulesets>
-<ruleset>practice-answer.xml</ruleset>
+<ruleset>answer.xml</ruleset>
 </rulesets>
 </configuration>
 <executions>
