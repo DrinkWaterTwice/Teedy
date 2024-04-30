@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn test -pl docs-core'
+                sh 'mvn test -pl core'
             }
         }
         stage('Generate Javadoc') {
@@ -18,7 +18,7 @@ pipeline {
         }
         stage('PMD') {
             steps {
-                sh 'mvn pmd:pmd'
+                sh 'mvn pmd:pmd -Dformat=html'
             }
         }
     }
@@ -27,7 +27,7 @@ pipeline {
         always {
             archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
             archiveArtifacts artifacts: '**/target/site/apidocs/**', fingerprint: true
-            archiveArtifacts artifacts: '**/target/pmd.xml', fingerprint: true
+            archiveArtifacts artifacts: '**/target/site/pmd.html', fingerprint: true
             archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', fingerprint: true
             archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
             archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
