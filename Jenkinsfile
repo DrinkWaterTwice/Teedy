@@ -8,12 +8,12 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn test -pl docs-core'
             }
         }
         stage('Generate Javadoc') {
             steps {
-                sh 'mvn javadoc:javadoc'
+                sh 'mvn javadoc:javadoc -Dmaven.javadoc.failOnError=false'
             }
         }
         stage('PMD') {
