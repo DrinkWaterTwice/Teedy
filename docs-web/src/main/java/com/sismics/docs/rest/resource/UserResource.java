@@ -1162,6 +1162,8 @@ public class UserResource extends BaseResource {
         return Response.ok().entity(response.build()).build();
     }
 
+
+
     /**
      * Returns the authentication token value.
      *

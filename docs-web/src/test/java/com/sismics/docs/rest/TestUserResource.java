@@ -493,4 +493,13 @@ public class TestUserResource extends BaseJerseyTest {
         json = response.readEntity(JsonObject.class);
         Assert.assertEquals("KeyNotFound", json.getString("type"));
     }
+    ///theme  给它插点空颜色和样式
+    @Test
+    public void testTheme() {
+        String adminToken = clientUtil.login("admin", "admin", false);
+        target().path("/user/theme").request()
+                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, adminToken)
+                .post(Entity.form(new Form()
+                        .param("color", "").param("name", "").param("css", "")), JsonObject.class);
+    }   
 }

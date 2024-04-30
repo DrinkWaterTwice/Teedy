@@ -36,4 +36,20 @@ public class TestJpa extends BaseTransactionalTest {
         // Authenticate using the database
         Assert.assertNotNull(new InternalAuthenticationHandler().authenticate("username", "12345678"));
     }
+
+    @Test
+    public void testGetGlobalStorageCurrent(){
+        UserDao userDao = new UserDao();
+        Long storage = userDao.getGlobalStorageCurrent();
+        Assert.assertNotNull(storage);
+    }
+
+    @Test
+    public void TestGetActiveUserCount(){
+        UserDao userDao = new UserDao();
+        Long storage = userDao.getActiveUserCount();
+        Assert.assertNotNull(storage);
+    }
+
+
 }

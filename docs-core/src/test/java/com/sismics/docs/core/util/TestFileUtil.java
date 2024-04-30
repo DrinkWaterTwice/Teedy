@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * Test of the file utilities.
@@ -138,5 +139,16 @@ public class TestFileUtil {
             PdfUtil.convertToPdf(documentDto, Lists.newArrayList(file0, file1, file2, file3, file4, file5), true, true, 10, outputStream);
             Assert.assertTrue(outputStream.toByteArray().length > 0);
         }
+    }
+
+    @Test
+    public void TestUpdateMetadata(){
+        ArrayList<String> tags = new ArrayList<>();
+        try{
+            MetadataUtil.updateMetadata("test", tags, tags); 
+        }catch (Exception e){
+            Assert.fail();
+        }
+        
     }
 }
