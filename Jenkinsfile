@@ -1,36 +1,29 @@
 pipeline {
     agent any
     stages {
-        stage('Build') { 
+        stage('Package') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('Test') {
+        stage('Building image') {
             steps {
-                sh 'mvn test -pl docs-core'
+                sh 'docker build -t teedy-image .' 
             }
         }
-        stage('Generate Javadoc') {
+        stage('upload image') {
             steps {
-                sh 'mvn javadoc:javadoc -Dmaven.javadoc.failOnError=false'
+                withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    sh 'docker tag teedy-image DrinkWaterTwice/my-image'
+                    sh 'docker push DrinkWaterTwice/my-image'
+                }
             }
         }
-        stage('PMD') {
+        stage('run container') {
             steps {
-                sh 'mvn pmd:pmd -Dformat=html'
+                sh 'docker run -d --name teedy-container DrinkWaterTwice/teedy-image'
             }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
-            archiveArtifacts artifacts: '**/target/site/apidocs/**', fingerprint: true
-            archiveArtifacts artifacts: '**/target/pmd.html', fingerprint: true
-            archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', fingerprint: true
-            archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
-            archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
         }
     }
 }
