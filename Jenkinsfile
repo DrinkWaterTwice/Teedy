@@ -40,7 +40,7 @@ sh 'mvn -B -DskipTests clean package'
 }
 stage('K8s') {
 steps {
-sh 'kubectl set image teedy teedy=drinkwatertwice/teedy:teedy-image'
+sh 'kubectl set image deployment/teedy teedy=drinkwatertwice/teedy:teedy-image'
 }
 }
 }
